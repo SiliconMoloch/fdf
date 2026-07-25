@@ -1,65 +1,93 @@
 #include "map.h"
-#include "vector.h"
+#include "projections.h"
 #include <stdbool.h>
-#include <math.h>
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
 
-#define X 0
-#define Y 1
-#define Z 2
 #define WIDTH 1920
 #define HEIGHT 1080
-#define ISO_ANGLE (M_PI / 6.f)
+#define ROW 0
+#define COL 1
 
 bool            render(t_map map);
-//static void     draw(t_map map, t_vect2 *isometric_points);
-static t_vect2  *parse_points(const uint64_t map_height, const uint64_t map_width, t_point *points);
-static t_vect2  isometric_projection(uint64_t grid[2], int64_t altitude);
+static void     compute(t_vect2 *points, const t_map map);
+static void     draw_lines(t_vect2 *points, const uint64_t width, const uint64_t height);
 
 bool    render(t_map map)
 {
-    t_vect2 *isometric_points;
+    GLFWwindow  *window;
+    t_vect2     *projection_points;
 
-    isometric_points = parse_points(map.height, map.width, map.points);
-    if (!isometric_points)
+    glfwInit();
+    window = glfwCreateWindow(WIDTH, HEIGHT, "fdf", NULL, NULL);
+    if (!window)
     {
-        free(map.points);
+        glfwTerminate();
         return (false);
     }
-    //draw(map, isometric_points);
-    free(isometric_points);
+    glfwMakeContextCurrent(window);
+    while (!glfwWindowShouldClose(window))
+    {
+        glClear(GL_COLOR_BUFFER_BIT);
+        projection_points = calloc(map.width * map.height, sizeof(t_vect2));
+        if (!projection_points)
+        {
+            glfwTerminate();
+            return (false);
+        }
+        compute(projection_points, map);
+        draw_lines(projection_points, map.width, map.height);
+        free(projection_points);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+    glfwTerminate();
     return (true);
 }
 
-static t_vect2  *parse_points(const uint64_t map_height,  const uint64_t map_width, t_point *points)
+static void compute(t_vect2 *points, const t_map map)
 {
     uint64_t grid[2];
-    t_vect2 *isometric_points;
 
-    isometric_points = calloc(map_width * map_height, sizeof(t_vect2));
-    if (!isometric_points)
-        return (NULL);
-    grid[X] = 0;
-    while (grid[X] < map_height)
+    grid[ROW] = 0;
+    while (grid[ROW] < map.height)
     {
-        grid[Y] = 0;
-        while (grid[Y] < map_width)
+        grid[COL] = 0;
+        while (grid[COL] < map.width)
         {
-            isometric_points[grid[X] * map_width + grid[Y]] =
-                isometric_projection(grid, points[grid[X] * map_width + grid[Y]].altitude);
-            ++grid[Y];
+            points[grid[ROW] * map.width + grid[COL]] =
+                isometric_projection(grid, map.points[grid[ROW] * map.width + grid[COL]].altitude);
+            ++grid[COL];
         }
-        ++grid[X];
+        ++grid[ROW];
     }
-    return (isometric_points);
 }
 
-static t_vect2 isometric_projection(uint64_t grid[2], int64_t altitude)
+static void draw_lines(t_vect2 *points, const uint64_t width, const uint64_t height)
 {
-    t_vect2 isometric_point;
+    uint64_t x;
+    uint64_t y;
 
-    isometric_point.x = (grid[X] - grid[Y]) * cos(ISO_ANGLE);
-    isometric_point.y = (grid[X] + grid[Y]) * sin(ISO_ANGLE) - altitude;
-    return (isometric_point);
+    y = 0;
+    glBegin(GL_LINES);
+    while (y < height)
+    {
+        x = 0;
+        while (x < width)
+        {
+            if (x < width - 1)
+            {
+                glVertex2f(points[y * width + x].x, points[y * width + x].y);
+                glVertex2f(points[y * width + x + 1].x, points[y * width + x + 1].y);
+            }
+            if (y < height - 1)
+            {
+                glVertex2f(points[y * width + x].x, points[y * width + x].y);
+                glVertex2f(points[(y + 1) * width + x].x, points[(y + 1) * width + x].y);
+            }
+            ++x;
+        }
+        ++y;
+    }
+    glEnd();
 }

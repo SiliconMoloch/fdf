@@ -18,7 +18,8 @@ SOURCES     = sources/main.c \
               sources/open_file.c \
               sources/parse_map.c \
               sources/parse_line.c \
-              sources/render.c
+              sources/render.c \
+			  sources/projections.c
 
 OBJECTS_DIR = .objects/
 OBJECTS     = ${SOURCES:.c=.o}
