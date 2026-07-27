@@ -1,18 +1,16 @@
+#include "fdf.h"
 #include "projections.h"
-#define X 0
-#define Y 1
 
-t_vect2 isometric_projection(uint64_t grid[2], int64_t altitude)
+t_vect2 isometric_projection(t_context context, uint64_t grid[2], uint64_t point_position)
 {
-    t_vect2 p;
-    float   points[2];
+    t_vect2     p;
+    float       points[2];
+    const float altitude = context.map.points[point_position].altitude * context.camera.zoom;
 
     points[X] = (float)grid[X];
     points[Y] = (float)grid[Y];
 
-    p.x = (points[X] - points[Y]) * cos(ISO_ANGLE);
-    p.y = (points[X] + points[Y]) * sin(ISO_ANGLE) + altitude;
-    p.x *= 0.05f;
-    p.y *= 0.05f;
+    p.x = context.camera.zoom * (points[X] - points[Y]) * cos(ISO_ANGLE) + context.camera.position.x;
+    p.y = context.camera.zoom * (points[X] + points[Y]) * sin(ISO_ANGLE) + context.camera.position.y - altitude;
     return (p);
 }

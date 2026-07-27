@@ -19,6 +19,7 @@ SOURCES     = sources/main.c \
               sources/parse_map.c \
               sources/parse_line.c \
               sources/render.c \
+			  sources/camera.c \
 			  sources/projections.c
 
 OBJECTS_DIR = .objects/

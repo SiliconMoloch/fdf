@@ -1,19 +1,13 @@
-#include "map.h"
+#include "fdf.h"
 #include "projections.h"
-#include <stdbool.h>
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
 
-#define WIDTH 1920
-#define HEIGHT 1080
-#define ROW 0
-#define COL 1
-
-bool            render(t_map map);
-static void     compute(t_vect2 *points, const t_map map);
+bool            render(t_context context);
+static void     compute(t_vect2 *points, const t_context context);
 static void     draw_lines(t_vect2 *points, const uint64_t width, const uint64_t height);
 
-bool    render(t_map map)
+bool    render(t_context context)
 {
     GLFWwindow  *window;
     t_vect2     *projection_points;
@@ -29,14 +23,14 @@ bool    render(t_map map)
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        projection_points = calloc(map.width * map.height, sizeof(t_vect2));
+        projection_points = calloc(context.map.width * context.map.height, sizeof(t_vect2));
         if (!projection_points)
         {
             glfwTerminate();
             return (false);
         }
-        compute(projection_points, map);
-        draw_lines(projection_points, map.width, map.height);
+        compute(projection_points, context);
+        draw_lines(projection_points, context.map.width, context.map.height);
         free(projection_points);
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -45,18 +39,20 @@ bool    render(t_map map)
     return (true);
 }
 
-static void compute(t_vect2 *points, const t_map map)
+static void compute(t_vect2 *points, const t_context context)
 {
     uint64_t grid[2];
+    uint64_t point_position;
 
     grid[ROW] = 0;
-    while (grid[ROW] < map.height)
+    while (grid[ROW] < context.map.height)
     {
         grid[COL] = 0;
-        while (grid[COL] < map.width)
+        while (grid[COL] < context.map.width)
         {
-            points[grid[ROW] * map.width + grid[COL]] =
-                isometric_projection(grid, map.points[grid[ROW] * map.width + grid[COL]].altitude);
+            point_position = grid[ROW] * context.map.width + grid[COL];
+            points[point_position] =
+                isometric_projection(context, grid, point_position);
             ++grid[COL];
         }
         ++grid[ROW];

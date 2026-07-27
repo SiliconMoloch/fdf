@@ -7,6 +7,6 @@
 #include <stdint.h>
 #include <math.h>
 
-t_vect2  isometric_projection(uint64_t grid[2], int64_t altitude);
+t_vect2 isometric_projection(t_context context, uint64_t grid[2], uint64_t point_position);
 
 #endif

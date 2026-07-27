@@ -1,25 +1,23 @@
+#include "fdf.h"
 #include "parse.h"
-#include "point.h"
-#include "map.h"
 #include <stdlib.h>
-
-bool	render(t_map map);
 
 int main(int argc, const char *argv[])
 {
     if (invalid_args(argc, argv))
         return (1);
 
-    FILE    *file;
-    t_map   map;
+    FILE        *file;
+    t_context   context;
 
     file = open_file(argv[1]);
     if (!file)
         return (1);
-    if (!parse_map(file, &map))
+    if (!parse_map(file, &context.map))
         return (1);
-    if (!render(map))
+    initialize_camera(&context.camera);
+    if (!render(context))
         return (1);
-    free(map.points);
+    free(context.map.points);
     return (0);
 }
