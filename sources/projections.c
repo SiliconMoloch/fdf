@@ -11,6 +11,6 @@ t_vect2 isometric_projection(t_context context, uint64_t grid[2], uint64_t point
     points[Y] = (float)grid[Y];
 
     p.x = context.camera.zoom * (points[X] - points[Y]) * cos(ISO_ANGLE) + context.camera.position.x;
-    p.y = context.camera.zoom * (points[X] + points[Y]) * sin(ISO_ANGLE) + context.camera.position.y - altitude;
+    p.y = context.camera.zoom * (points[X] + points[Y]) * sin(ISO_ANGLE) + context.camera.position.y + altitude;
     return (p);
 }

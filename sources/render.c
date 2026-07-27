@@ -23,10 +23,10 @@ bool    render(t_context context)
     glfwSetWindowUserPointer(window, &context);
     glfwSetKeyCallback(window, key_callback);
     glfwSetScrollCallback(window, scroll_callback);
+    projection_points = calloc(context.map.width * context.map.height, sizeof(t_vect2));
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        projection_points = calloc(context.map.width * context.map.height, sizeof(t_vect2));
         if (!projection_points)
         {
             glfwTerminate();
@@ -34,10 +34,10 @@ bool    render(t_context context)
         }
         compute(projection_points, context);
         draw_lines(projection_points, context.map.width, context.map.height);
-        free(projection_points);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+    free(projection_points);
     glfwTerminate();
     return (true);
 }
@@ -47,18 +47,18 @@ static void compute(t_vect2 *points, const t_context context)
     uint64_t grid[2];
     uint64_t point_position;
 
-    grid[ROW] = 0;
-    while (grid[ROW] < context.map.height)
+    grid[Y] = 0;
+    while (grid[Y] < context.map.height)
     {
-        grid[COL] = 0;
-        while (grid[COL] < context.map.width)
+        grid[X] = 0;
+        while (grid[X] < context.map.width)
         {
-            point_position = grid[ROW] * context.map.width + grid[COL];
+            point_position = grid[Y] * context.map.width + grid[X];
             points[point_position] =
                 isometric_projection(context, grid, point_position);
-            ++grid[COL];
+            ++grid[X];
         }
-        ++grid[ROW];
+        ++grid[Y];
     }
 }
 

@@ -8,9 +8,10 @@ bool    parse_map(FILE *file, t_map *map)
     uint64_t    buffer_size;
     uint64_t    line_count;
 
-    map->points = NULL;
     line = NULL;
+    buffer_size = 0;
     line_count = 0;
+    map->points = NULL;
     map->width = 0;
     map->height = 0;
     while (getline(&line, &buffer_size, file) != -1)

@@ -6,8 +6,8 @@
 #include "camera.h"
 #define WIDTH 1920
 #define HEIGHT 1080
-#define ROW 0
-#define COL 1
+#define X 0
+#define Y 1
 
 typedef struct s_context
 {
