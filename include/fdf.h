@@ -12,11 +12,10 @@
 typedef struct s_context
 {
     t_map       map;
-    t_point    *projected_points;
+    t_point     *projected_points;
     t_camera    camera;
 }   t_context;
 
 bool    render(t_context context);
-
 
 #endif

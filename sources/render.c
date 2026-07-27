@@ -1,7 +1,7 @@
 #include "fdf.h"
+#include "callbacks.h"
 #include "projections.h"
 #include <stdlib.h>
-#include <GLFW/glfw3.h>
 
 bool            render(t_context context);
 static void     compute(t_vect2 *points, const t_context context);
@@ -20,6 +20,7 @@ bool    render(t_context context)
         return (false);
     }
     glfwMakeContextCurrent(window);
+    glfwSetWindowUserPointer(window, &context);
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
@@ -34,6 +35,8 @@ bool    render(t_context context)
         free(projection_points);
         glfwSwapBuffers(window);
         glfwPollEvents();
+        glfwSetKeyCallback(window, key_callback);
+        glfwSetScrollCallback(window, scroll_callback);
     }
     glfwTerminate();
     return (true);

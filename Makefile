@@ -20,7 +20,8 @@ SOURCES     = sources/main.c \
               sources/parse_line.c \
               sources/render.c \
 			  sources/camera.c \
-			  sources/projections.c
+			  sources/projections.c \
+			  sources/callbacks.c
 
 OBJECTS_DIR = .objects/
 OBJECTS     = ${SOURCES:.c=.o}
