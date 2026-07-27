@@ -25,12 +25,11 @@ void    key_callback(GLFWwindow* window, int key, int scancode, int action, int 
 void    scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     t_context   *context;
-    const float zoom_step = 0.1f;
 
     context = (t_context *)glfwGetWindowUserPointer(window);
     (void)xoffset;
     if (yoffset > 0)
-        (*context).camera.zoom += zoom_step;
+        (*context).camera.zoom *= 1.1f;
     else if (yoffset < 0)
-        (*context).camera.zoom -= zoom_step;
+        (*context).camera.zoom *= 0.9f;
 }
