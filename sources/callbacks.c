@@ -32,6 +32,15 @@ void    key_callback(GLFWwindow* window, int key, int scancode, int action, int 
             case GLFW_KEY_C:
                 (*context).color_mode = !(*context).color_mode;
                 break;
+            case GLFW_KEY_0:
+                (*context).projection_mode = 0;
+                break;
+            case GLFW_KEY_1:
+                (*context).projection_mode = 1;
+                break;
+            case GLFW_KEY_2:
+                (*context).projection_mode = 2;
+                break;
             default:
                 break;
         }

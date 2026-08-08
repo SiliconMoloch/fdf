@@ -55,8 +55,24 @@ static void compute(t_vect2 *points, const t_context context)
         while (grid[X] < context.map.width)
         {
             point_position = grid[Y] * context.map.width + grid[X];
-            points[point_position] =
-                isometric_projection(context, grid, point_position);
+            switch (context.projection_mode)
+            {
+                case 0:
+                    points[point_position] =
+                        isometric_projection(context, grid, point_position);
+                    break;
+                case 1:
+                    points[point_position] =
+                        conic_projection(context, grid, point_position);
+                    break;
+                case 2:
+                    points[point_position] =
+                        oblique_projection(context, grid, point_position);
+                    break;
+                default:
+                    points[point_position] =
+                        isometric_projection(context, grid, point_position);
+            }
             ++grid[X];
         }
         ++grid[Y];

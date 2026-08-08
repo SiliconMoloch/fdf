@@ -1,5 +1,7 @@
- #ifndef CAMERA_H
+#ifndef CAMERA_H
 #define CAMERA_H
+
+# define FOCAL_LENGTH 500.0f
 
 #include "vector.h"
 #include "point.h"
