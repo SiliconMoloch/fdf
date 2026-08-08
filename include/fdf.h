@@ -14,6 +14,7 @@ typedef struct s_context
     t_map       map;
     t_point     *projected_points;
     t_camera    camera;
+    bool        color_mode;
 }   t_context;
 
 bool    render(t_context context);

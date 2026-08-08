@@ -10,16 +10,32 @@ void    key_callback(GLFWwindow* window, int key, int scancode, int action, int 
     (void)window;
     (void)scancode;
     (void)mods;
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-    else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-        (*context).camera.position.y += step;
-    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-        (*context).camera.position.y -= step;
-    else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-        (*context).camera.position.x -= step;
-    else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-        (*context).camera.position.x += step;
+    if (action == GLFW_PRESS)
+    {
+        switch (key)
+        {
+            case GLFW_KEY_ESCAPE:
+                glfwSetWindowShouldClose(window, GLFW_TRUE);
+                break;
+            case GLFW_KEY_UP:
+                (*context).camera.position.y += step;
+                break;
+            case GLFW_KEY_DOWN:
+                (*context).camera.position.y -= step;
+                break;
+            case GLFW_KEY_LEFT:
+                (*context).camera.position.x -= step;
+                break;
+            case GLFW_KEY_RIGHT:
+                (*context).camera.position.x += step;
+                break;
+            case GLFW_KEY_C:
+                (*context).color_mode = !(*context).color_mode;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void    scroll_callback(GLFWwindow* window, double xoffset, double yoffset)

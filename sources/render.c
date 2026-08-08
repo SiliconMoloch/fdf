@@ -3,9 +3,10 @@
 #include "projections.h"
 #include <stdlib.h>
 
-bool            render(t_context context);
-static void     compute(t_vect2 *points, const t_context context);
-static void     draw_lines(t_vect2 *points, const uint64_t width, const uint64_t height);
+bool        render(t_context context);
+static void compute(t_vect2 *points, const t_context context);
+static void draw_lines(const t_context context, t_vect2 *points);
+static void set_color(const t_context context, uint64_t index);
 
 bool    render(t_context context)
 {
@@ -33,7 +34,7 @@ bool    render(t_context context)
             return (false);
         }
         compute(projection_points, context);
-        draw_lines(projection_points, context.map.width, context.map.height);
+        draw_lines(context, projection_points);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -62,31 +63,50 @@ static void compute(t_vect2 *points, const t_context context)
     }
 }
 
-static void draw_lines(t_vect2 *points, const uint64_t width, const uint64_t height)
+static void draw_lines(const t_context context, t_vect2 *points)
 {
     uint64_t x;
     uint64_t y;
 
     y = 0;
     glBegin(GL_LINES);
-    while (y < height)
+    while (y < context.map.height)
     {
         x = 0;
-        while (x < width)
+        while (x < context.map.width)
         {
-            if (x < width - 1)
+            if (x < context.map.width - 1)
             {
-                glVertex2f(points[y * width + x].x, points[y * width + x].y);
-                glVertex2f(points[y * width + x + 1].x, points[y * width + x + 1].y);
+                set_color(context, y * context.map.width + x);
+                glVertex2f(points[y * context.map.width + x].x, points[y * context.map.width + x].y);
+                set_color(context, y * context.map.width + x + 1);
+                glVertex2f(points[y * context.map.width + x + 1].x, points[y * context.map.width + x + 1].y);
             }
-            if (y < height - 1)
+            if (y < context.map.height - 1)
             {
-                glVertex2f(points[y * width + x].x, points[y * width + x].y);
-                glVertex2f(points[(y + 1) * width + x].x, points[(y + 1) * width + x].y);
+                set_color(context, y * context.map.width + x);
+                glVertex2f(points[y * context.map.width + x].x, points[y * context.map.width + x].y);
+                set_color(context, (y + 1) * context.map.width + x);
+                glVertex2f(points[(y + 1) * context.map.width + x].x, points[(y + 1) * context.map.width + x].y);
             }
             ++x;
         }
         ++y;
     }
     glEnd();
+}
+
+static void set_color(const t_context context, uint64_t index)
+{
+    if (context.color_mode)
+    {
+        glColor4ub(
+            context.map.points[index].t_color.r,
+            context.map.points[index].t_color.g,
+            context.map.points[index].t_color.b,
+            context.map.points[index].t_color.a
+        );
+    }
+    else
+        glColor4ub(255, 255, 255, 255);
 }
