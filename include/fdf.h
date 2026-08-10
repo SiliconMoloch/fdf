@@ -16,8 +16,11 @@ typedef struct s_context
     t_camera    camera;
     bool        color_mode;
     uint8_t     projection_mode;
+    float       z_axis_scale;
+
 }   t_context;
 
+void    initialize_context(t_context *context);
 bool    render(t_context context);
 
 #endif

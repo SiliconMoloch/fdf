@@ -2,7 +2,6 @@
 #define PROJECTIONS_H
 
 #define ISO_ANGLE (M_PI / 6.f)
-#define ZOOM_FACTOR 0.40f
 
 #include "vector.h"
 #include <stdint.h>

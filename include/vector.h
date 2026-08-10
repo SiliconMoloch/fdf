@@ -3,6 +3,7 @@
 
 #define X 0
 #define Y 1
+#define Z 2
 
 typedef struct s_vect2
 {

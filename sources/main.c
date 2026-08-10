@@ -7,9 +7,10 @@ int main(int argc, const char *argv[])
     if (invalid_args(argc, argv))
         return (1);
 
-    FILE        *file;
-    t_context   context;
+    FILE *file;
+    t_context context;
 
+    initialize_context(&context);
     file = open_file(argv[1]);
     if (!file)
         return (1);

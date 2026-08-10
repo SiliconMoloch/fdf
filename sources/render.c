@@ -73,6 +73,7 @@ static void compute(t_vect2 *points, const t_context context)
                     points[point_position] =
                         isometric_projection(context, grid, point_position);
             }
+            apply_camera_transformations(&points[point_position], context.camera);
             ++grid[X];
         }
         ++grid[Y];

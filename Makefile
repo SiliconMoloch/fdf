@@ -13,15 +13,16 @@ GLFW_BUILD  = $(GLFW_DIR)/build
 INCLUDE		= -I./include -I$(GLFW_DIR)/include
 DEPSFLAGS   = -MMD -MP
 
-SOURCES     = sources/main.c \
-              sources/parse_arguments.c \
-              sources/open_file.c \
-              sources/parse_map.c \
-              sources/parse_line.c \
-              sources/render.c \
-			  sources/camera.c \
-			  sources/projections.c \
-			  sources/callbacks.c
+SOURCES     = 	sources/main.c \
+				sources/context.c \
+              	sources/parse_arguments.c \
+              	sources/open_file.c \
+              	sources/parse_map.c \
+              	sources/parse_line.c \
+              	sources/render.c \
+			  	sources/camera.c \
+			  	sources/projections.c \
+			  	sources/callbacks.c
 
 OBJECTS_DIR = .objects/
 OBJECTS     = ${SOURCES:.c=.o}
