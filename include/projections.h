@@ -2,6 +2,7 @@
 #define PROJECTIONS_H
 
 #define ISO_ANGLE (M_PI / 6.f)
+#define OBLIQUE_ANGLE (M_PI / 4.f)
 
 #include "vector.h"
 #include <stdint.h>
