@@ -14,7 +14,7 @@ bool    render(t_context context)
     t_vect2     *projection_points;
 
     glfwInit();
-    window = glfwCreateWindow(WIDTH, HEIGHT, "fdf", NULL, NULL);
+    window = glfwCreateWindow(context.screen_dimensions[X], context.screen_dimensions[Y], "fdf", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
