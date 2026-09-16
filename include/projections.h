@@ -9,7 +9,7 @@
 #include <math.h>
 
 t_vect2 isometric_projection(t_context context, uint64_t grid[2], uint64_t point_position);
-t_vect2 conic_projection(t_context context, uint64_t grid[2], uint64_t point_position);
-t_vect2 oblique_projection(t_context context, uint64_t grid[2], uint64_t point_position);
+t_vect2 oblique_cabinet_projection(t_context context, uint64_t grid[2], uint64_t point_position);
+t_vect2 oblique_cavalier_projection(t_context context, uint64_t grid[2], uint64_t point_position);
 
 #endif

@@ -63,11 +63,11 @@ static void compute(t_vect2 *points, const t_context context)
                     break;
                 case 1:
                     points[point_position] =
-                        conic_projection(context, grid, point_position);
+                        oblique_cabinet_projection(context, grid, point_position);
                     break;
                 case 2:
                     points[point_position] =
-                        oblique_projection(context, grid, point_position);
+                        oblique_cavalier_projection(context, grid, point_position);
                     break;
                 default:
                     points[point_position] =
