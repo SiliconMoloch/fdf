@@ -13,7 +13,8 @@ bool    render(t_context context)
     GLFWwindow  *window;
     t_vect2     *projection_points;
 
-    glfwInit();
+    if (!glfwInit())
+        return (false);
     window = glfwCreateWindow(context.screen_dimensions[X], context.screen_dimensions[Y], "fdf", NULL, NULL);
     if (!window)
     {
@@ -25,20 +26,23 @@ bool    render(t_context context)
     glfwSetKeyCallback(window, key_callback);
     glfwSetScrollCallback(window, scroll_callback);
     projection_points = calloc(context.map.width * context.map.height, sizeof(t_vect2));
+    if (!projection_points)
+    {
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return (false);
+    }
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        if (!projection_points)
-        {
-            glfwTerminate();
-            return (false);
-        }
+
         compute(projection_points, context);
         draw_lines(context, projection_points);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
     free(projection_points);
+    glfwDestroyWindow(window);
     glfwTerminate();
     return (true);
 }

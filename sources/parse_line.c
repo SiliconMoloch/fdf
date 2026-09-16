@@ -61,7 +61,7 @@ static bool    insert_value(char *line, t_point *point)
 
     while (*line)
     {
-        while (isspace(*line))
+        while (isspace((unsigned char)*line))
             ++line;
         if (!*line)
             break;
@@ -100,12 +100,12 @@ uint64_t    count_points(const char *line)
     count = 0;
     while (*line)
     {
-        while (isspace(*line))
+        while (isspace((unsigned char)*line))
             ++line;
         if (!*line || *line == '\n')
             break;
         ++count;
-        while (*line && !isspace(*line))
+        while (*line && !isspace((unsigned char)*line))
                 ++line;
     }
     return (count);
