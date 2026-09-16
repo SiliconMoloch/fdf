@@ -1,4 +1,4 @@
-# [FdF](https://en.wikipedia.org/wiki/Wire-frame_model)
+# [fdf](https://en.wikipedia.org/wiki/Wire-frame_model)
 
 A small 3D wireframe viewer written in C with GLFW and OpenGL. The program reads a `.fdf` height map, projects its points into 2D, and renders the result as a navigable wireframe.
 
